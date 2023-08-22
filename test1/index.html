@@ -1,0 +1,177 @@
+<body>
+<div id="mytitle">   </div><p>
+ <div id="output" style="color:black; font-size:16px;   "> </div>
+    <form id="myForm" onsubmit="handleFormSubmit(this)" style="display:inline">
+      請輸入你的學號 
+      <input id="id" name="id" type="text" style="font-size:30px; width:150px" placeholder="輸入學號" /><p>
+      請輸入你的密碼
+      <input id="passwd" name="passwd" type="password" style="font-size:30px; width:150px" placeholder="輸入驗證碼" ><p>
+      請選擇要查詢的成績
+      <select name="exam" id="exam" type="text" />
+      
+       </select><p>
+      <input id="formsubmit" type="submit" value="送出" />
+    </form>
+    <br>
+ 
+   
+    <table id="mytable" >
+      <thead>
+      
+      </thead>
+      <tbody>
+               
+      </tbody>
+  
+</table>
+
+
+ 
+ </body>
+ 
+  
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+
+
+
+
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      
+      window.addEventListener('load', preventFormSubmit);
+      
+function handleFormSubmit(formObject) {
+        google.script.run.withSuccessHandler(showdata).processForm(formObject);
+      }
+      
+      
+    
+function SetExamName(){
+   google.script.run.withSuccessHandler(getOption).getallsheetnames();
+   }
+ 
+
+function getOption(title){     
+  for(var i=0;i<title.length;i++){
+  $("#exam").append('<option value=\"'+ title[i] +'\">'+ title[i]  +'</option>');
+  }
+  }
+  
+
+function outputhtmltable(tableid,title,query){
+var tablehead=tableid+' thead';
+var tablebody=tableid+' tbody';
+var titlelen=title.length;
+var querylen=query.length;
+for(var i=0;i<titlelen;i++){
+        $(tablehead).append("<td>"+title[i]+"</td>");
+        }
+        for(var i=0;i<querylen;i++){
+        $(tablebody).append("<tr>");
+          for(var j=0;j<query[i].length;j++){
+          $(tablebody).append("<td>"+query[i][j]+"</td>");
+          }
+        $(tablebody).append("</tr>");
+        }
+$('table').css("border", "1px solid black");
+$('td').css("border", "1px solid black");  
+}
+            
+      
+function showdata(queryresult) {
+       $("#output").css("font-size","30px");
+        $("#output").css("font-weight","bold");
+        $("#output").html("") ;
+        
+        if(queryresult){
+        var title=queryresult['title'];
+        var record=queryresult['record'];
+        $("form").css("display","none");
+        var tableid='#mytable';
+        var examname=queryresult['exam'];
+        
+        $("#output").css("color","blue");
+        
+        
+        $("#output").append(examname+"的查詢結果如下<br>");
+        outputhtmltable(tableid,title,record)
+        
+        
+        
+        }else{
+       
+       var subButton=$('#myForm').find(':submit');
+       subButton.prop('disabled',false);
+       subButton.val('送出');
+  
+       
+       
+        $("#output").css("color","red");
+        
+        $("#output").html("系統訊息： 學號或密碼錯誤") ;
+        }
+      }
+      
+function SetTitle(){
+google.script.run.withSuccessHandler(maketitle).gettitle();
+}
+
+
+function maketitle(title){
+$('#mytitle').html(title);
+}
+      
+$(document).ready(function(){ 
+
+
+SetTitle();
+SetExamName();
+
+
+
+
+$('#exam').selectmenu({width:200 });
+$('#formsubmit').button();
+//
+
+
+
+$('table').css("border", "0px");
+$('td').css("border", "0px");
+$('#myForm').submit(function(){
+       var subButton=$(this).find(':submit');
+       subButton.prop('disabled',true);
+       subButton.val('資料查詢中，請稍候');
+    });
+
+ });      
+      
+      
+
+      
+</script>
+
+<style>
+thead {color:black; font-size:16px;}
+tbody {color:blue; font-size:16px;}
+table {border-collapse: collapse;}
+
+#mytitle {color:black; font-size:30px; font-weight:bold }
+#myForm {color:black; font-size:30px}
+
+</style>
+
+
+
+
