@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--html語言是繁體中文-->
+<html lang="zh-TW">
+    <head>
+        <base target="_top">
+        <!--JQuery連結-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+        <!--DataTable Links連結-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />  
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <!--抓資料，從試算表-->
+        <script>
+            google.script.run.withSuccessHandler(showData).getData();
+            function showData(dataArray){
+                $(document).ready(function(){
+                    $('#data-table').DataTable({
+                        data: dataArray,
+                        columns: [
+                            
+                            {title: "課名"},
+                            {title: "老師"},
+                            {title: "領域"}, 
+                            {title: "年度"},
+                            {title: "星級"},
+                            {title: "修課心得"}
+                        ]
+                    });
+                })
+            }
+        </script>
+    </head>
+    <body>
+    <div class = "container">
+        <br>
+        <div class = "row" >
+            <table id = "data-table" class = "table table-striped table-sm table-hover table-bordered">
+                <!--table data is added by the showData() javascript function above-->
+            </table>
+        </div>
+
+    </div>
+  </body>
+
+</html>
