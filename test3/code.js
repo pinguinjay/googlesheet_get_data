@@ -2,17 +2,20 @@
 
 //連結HTML 哪一個檔案要顯示資料
 function doGet(){
-    var html = HtmlService.createTemplateFromFile("DataTable");
-    var check = html.evaluate();
-    var display = check.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    var html = HtmlService.createTemplateFromFile("DataTable"); //改成要顯示的HTML檔案名稱
+    var check = html.evaluate(); //evaluate()會回傳一個HtmlOutput物件
+    //設定XFrameOptionsMode.ALLOWALL，讓網頁可以被iframe
+    var display = check.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL); 
     return display;
 }
 
+
 //抓整列(row)資料
 function getData(){
-    var activeSheet = SpreadsheetApp.getActiveSpreadsheet();
-    var sheetNo = activeSheet.getSheetByName("表單回應 3"); //改成要抓的內容的試算表名稱
-    var data = sheetNo.getDataRange().getValues();
-    //第一列是標題，所以從第二列開始抓
-    return data.slice(1);
+     //var activeSheet = SpreadsheetApp.getActiveSpreadsheet(); //抓取目前的試算表
+     var activeSheet = SpreadsheetApp.openById("1t9JNHSnSkBi6h3CIyYrM66bYoDTfvHhQjsZGcBl9jKE"); //抓取目前的試算表
+    var sheetNo = activeSheet.getSheetByName("sheet2"); //改成要抓的內容的試算表分頁名稱
+    var data = sheetNo.getDataRange().getValues(); //抓資料範圍的值
+    //Logger.log(data)    
+    return data.slice(1);//第一列是標題，所以從第二列開始抓
 }
