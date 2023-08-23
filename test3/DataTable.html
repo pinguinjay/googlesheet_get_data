@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <!--html語言是繁體中文-->
-<html lang="zh-Hant-TW">
+<html lang="zh-TW">
     <head>
         <base target="_top">
         <!--JQuery連結-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
         <!--DataTable Links連結-->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+  
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+
+<!--<link href="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.css" rel="stylesheet">-->
+ 
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>-->
         <!--抓資料，從試算表-->
         <script>
-            google.script.run.withSuccessHandler(shoeData).getData();
+            google.script.run.withSuccessHandler(showData).getData();
             function showData(dataArray){
                 $(document).ready(function(){
                     $('#data-table').DataTable({
@@ -20,6 +28,7 @@
                             {title: "時間戳記"},
                             {title: "課程名稱"},
                             {title: "授課教師"},
+                            {title: "領域"}, 
                             {title: "開課年度(e.g.1071,1082)"},
                             {title: "推薦星級"},
                             {title: "甜度"},
@@ -44,6 +53,6 @@
         </div>
 
     </div>
-</body>
+  </body>
 
 </html>
